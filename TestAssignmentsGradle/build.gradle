@@ -1,0 +1,29 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.7'
+    testCompile 'junit:junit:4.12'
+    runtime 'mysql:mysql-connector-java:5.1.35'
+}
+
+task runCountWordsFromDBSourceMain (type: JavaExec, dependsOn: classes){
+    if(project.hasProperty('myargs')){
+        args(myargs.split(','))
+    }
+    description = "run CountWordsFromDBSourceMain.java"
+    main = "countwords.CountWordsFromDBSourceMain"
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task runCountWordsFromInputSourceMain (type: JavaExec, dependsOn: classes){
+    if(project.hasProperty('myargs')){
+        args(myargs.split(','))
+    }
+    description = "run CountWordsFromInputSourceMain.java"
+    main = "countwords.CountWordsFromInputSourceMain"
+    classpath = sourceSets.main.runtimeClasspath
+}
