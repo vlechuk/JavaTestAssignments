@@ -7,5 +7,5 @@ import java.util.Map;
  * Created by vlechuk on 10/19/16.
  */
 public interface OutputWriter {
-    void writeOutput(List<Map.Entry<String, Integer>> wordsList,int inputSourceId);
+    void writeOutput(List<Map.Entry<String, Integer>> wordsList,int inputSourceId) throws Exception;
 }

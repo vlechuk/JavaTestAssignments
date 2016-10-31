@@ -3,21 +3,18 @@ package countwords;
  * Created by vlechuk on 10/5/16.
  */
 
+import java.io.FileInputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toMap;
+import java.util.Properties;
 
 public class CountWordsFromDBSourceMain {
     /**
@@ -27,6 +24,11 @@ public class CountWordsFromDBSourceMain {
      * @throws Exception
      */
     public static void main(String args[]) throws Exception {
+
+        Properties property = new Properties();
+        FileInputStream fis = new FileInputStream("build.properties");
+        property.load(fis);
+
 
         // a WORD regex
         String wordSplitRegex = "\\W+";
@@ -39,10 +41,10 @@ public class CountWordsFromDBSourceMain {
         try
         {
             // create a mysql database connection
-            String myDriver = "com.mysql.jdbc.Driver";
-            String myUrl = "jdbc:mysql://localhost/test";
+            String myDriver = property.getProperty("mysql_driver");
+            String myUrl = property.getProperty("mysql_url");
             Class.forName(myDriver);
-            Connection conn = DriverManager.getConnection(myUrl, "root", "");
+            Connection conn = DriverManager.getConnection(myUrl, property.getProperty("mysql_user"), property.getProperty("mysql_password"));
 
             // the mysql query statements
             String getTextQuery = "select id, input_type, text_string from WordsTextStrings";
