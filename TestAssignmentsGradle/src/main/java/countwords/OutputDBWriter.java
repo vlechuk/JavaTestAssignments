@@ -1,6 +1,7 @@
 package countwords;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,9 +17,19 @@ public class OutputDBWriter implements OutputWriter {
     @Override
     public void writeOutput(List<Map.Entry<String, Integer>> wordsList, int inputSourceId) throws Exception {
 
+        FileInputStream fis = null;
         Properties property = new Properties();
-        FileInputStream fis = new FileInputStream("build.properties");
-        property.load(fis);
+        try {
+            fis = new FileInputStream("build.properties");
+            property.load(fis);
+        }catch (Exception e){
+            throw new FileNotFoundException(e.getMessage());
+        }
+        finally {
+            if(fis != null){
+                fis.close();
+            }
+        }
 
         try {
             String myDriver = property.getProperty("mysql_driver");

@@ -4,6 +4,7 @@ package countwords;
  */
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -25,10 +26,19 @@ public class CountWordsFromDBSourceMain {
      */
     public static void main(String args[]) throws Exception {
 
+        FileInputStream fis = null;
         Properties property = new Properties();
-        FileInputStream fis = new FileInputStream("build.properties");
-        property.load(fis);
-
+        try {
+            fis = new FileInputStream("build.properties");
+            property.load(fis);
+        }catch (Exception e){
+            throw new FileNotFoundException(e.getMessage());
+        }
+        finally {
+            if(fis != null){
+                fis.close();
+            }
+        }
 
         // a WORD regex
         String wordSplitRegex = "\\W+";

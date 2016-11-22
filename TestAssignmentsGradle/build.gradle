@@ -1,7 +1,16 @@
 apply plugin: 'java'
+apply plugin: 'application'
 
 repositories {
     mavenCentral()
+}
+
+mainClassName="countwords.CountWordsFromDBSourceMain"
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'countwords.CountWordsFromDBSourceMain'
+    }
 }
 
 dependencies {
